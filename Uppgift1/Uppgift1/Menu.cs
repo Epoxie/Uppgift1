@@ -29,6 +29,7 @@ namespace Uppgift1
                 Console.Clear(); // this is the end of the page currently
                 if (CheckInput(input)) // checks input so it's all good
                 {
+                    Console.Clear();
                     if (input[0] == '0')
                         Environment.Exit(0); // exit the application
                     else
@@ -36,10 +37,16 @@ namespace Uppgift1
                         switch (input[0])
                         {
                             case '1':
-                                Console.WriteLine("Case 1");
+                                ShowStock();
                                 break;
                             case '2':
-                                Console.WriteLine("Case 2");
+                                Search();
+                                break;
+                            case '3':
+                                Cart();
+                                break;
+                            case '4':
+                                Checkout();
                                 break;
                             default:
                                 break;
@@ -59,6 +66,26 @@ namespace Uppgift1
                 return true;
             else
                 return false;
+        }
+
+        private void ShowStock()
+        {
+            // do the thing
+        }
+
+        private void Search()
+        {
+            // things
+        }
+
+        private void Cart()
+        {
+            // show the cart
+        }
+
+        private void Checkout()
+        {
+            // checkout
         }
     }
 }
