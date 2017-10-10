@@ -9,31 +9,42 @@ namespace Uppgift1
     class Menu
     {
         String input = "";
-        Page CurrentPage;
 
         public Menu()
         {
-            CurrentPage = new Page("1. Search for items\n" +
-                                   "2. View the stock\n" +
-                                   "3. View the cart\n" +
-                                   "4. Checkout");
+            // default
         }
 
         public void Start()
         {
             while (true)
             {
-                Console.WriteLine("Choose what to do by typing a number:"); // writes out the first line
-                CurrentPage.WritePage(); // writes out the meat in the menu
-                Console.WriteLine("0. Exit program"); // writes the ending line
-                input = Console.ReadLine();
-                Console.Clear();
-                if (CheckInput(input))
+                Console.WriteLine("Choose what to do by typing a number: " +
+                                   "1. Search for items\n" +
+                                   "2. View the stock\n" +
+                                   "3. View the cart\n" +
+                                   "4. Checkout\n" +
+                                   "0. Exit program");
+                input = Console.ReadLine(); // reads the whole line
+                Console.Clear(); // this is the end of the page currently
+                if (CheckInput(input)) // checks input so it's all good
                 {
                     if (input[0] == '0')
-                        Environment.Exit(0);
+                        Environment.Exit(0); // exit the application
                     else
-                        CurrentPage.Action(input[0]);
+                    {
+                        switch (input[0])
+                        {
+                            case '1':
+                                Console.WriteLine("Case 1");
+                                break;
+                            case '2':
+                                Console.WriteLine("Case 2");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
                 else
                     Console.WriteLine("Wrong input, please type one of the numbers in the list.");
