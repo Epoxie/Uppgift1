@@ -42,6 +42,8 @@ namespace Uppgift1
                                    "4. Checkout\n" +
                                    "0. Exit program");
                 input = Console.ReadLine(); // reads the whole line
+                if (input == "")
+                    input = "k";
                 Console.Clear(); // this is the end of the page currently
                 if (input[0] == '0')
                     Environment.Exit(0); // exit the application
@@ -50,10 +52,10 @@ namespace Uppgift1
                     switch (input[0])
                     {
                         case '1':
-                            ShowStock();
+                            Search();
                             break;
                         case '2':
-                            Search();
+                            ShowStock();
                             break;
                         case '3':
                             Cart();
@@ -68,6 +70,109 @@ namespace Uppgift1
             }
         }
 
+        private void Search()
+        {
+            while (true)
+            {
+                Console.WriteLine("Choose Search Filter/function:\n" +
+                                   "1. Search Items by name\n" +
+                                   "2. Search Items cheaper than input\n" +
+                                   "3. Search Items more expensive than input\n" +
+                                   "4. Search Items by price and by name\n" +
+                                   "5. Search Items by name and category\n" +
+                                   "6. Search Items cheaper than input and by category\n" +
+                                   "7. Search Items more expensive than input and by category\n" +
+                                   "0. Back");
+                input = Console.ReadLine(); // reads the whole line
+                if (input == "")
+                    input = "k";
+                Console.Clear(); // this is the end of the page currently
+                Console.WriteLine("Search:");
+                if (input[0] == '0')
+                    return;
+                else
+                {
+                    double tempDouble;
+                    String tempString;
+                    String tempString2;
+                    bool tempBool = false;
+                    switch (input[0])
+                    {
+                        case '1':
+                            PrintList(shopStorage.SearchByName(Console.ReadLine()));
+                            break;
+                        case '2':
+                            try
+                            {
+                                tempDouble = Convert.ToDouble(Console.ReadLine());
+                            }
+                            catch { break; }
+                            PrintList(shopStorage.SearchCheaperItems(tempDouble));
+                            break;
+                        case '3':
+                            try
+                            {
+                                tempDouble = Convert.ToDouble(Console.ReadLine());
+                            }
+                            catch { break; }
+                            PrintList(shopStorage.SearchExpensiveItems(tempDouble));
+                            break;
+                        case '4':
+                            Console.WriteLine("Name:");
+                            tempString = Console.ReadLine();
+                            Console.WriteLine("Price:");
+                            try
+                            {
+                                tempDouble = Convert.ToDouble(Console.ReadLine());
+                            }
+                            catch { break; }
+                            Console.WriteLine("Wanna see options cheaper than " + tempDouble + "? (y/n)");
+                            try
+                            {
+                                if (Console.ReadLine()[0] == 'y')
+                                    tempBool = true;
+                            }
+                            catch { }
+                            PrintList(shopStorage.SearchWithOptions(tempString, tempDouble, tempBool));
+                            break;
+                        case '5':
+                            Console.WriteLine("Name:");
+                            tempString = Console.ReadLine();
+                            Console.WriteLine("Category:");
+                            tempString2 = Console.ReadLine();
+                            PrintList(shopStorage.SearchNameWithinCategory(tempString, tempString2));
+                            break;
+                        case '6':
+                            Console.WriteLine("Price:");
+                            try
+                            {
+                                tempDouble = Convert.ToDouble(Console.ReadLine());
+                            }
+                            catch { break; }
+                            Console.WriteLine("Category:");
+                            tempString = Console.ReadLine();
+                            PrintList(shopStorage.SearchCheaperWithinCategory(tempDouble, tempString));
+                            break;
+                        case '7':
+                            Console.WriteLine("Price:");
+                            try
+                            {
+                                tempDouble = Convert.ToDouble(Console.ReadLine());
+                            }
+                            catch { break; }
+                            Console.WriteLine("Category:");
+                            tempString = Console.ReadLine();
+                            PrintList(shopStorage.SearchExpensiveWithinCategory(tempDouble, tempString));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+
         private void ShowStock()
         {
             while (true)
@@ -77,8 +182,10 @@ namespace Uppgift1
                                   "2. See the stock sorted by name\n" +
                                   "3. See the stock sorted by price and name\n" +
                                   "4. See the stock sorted by price, grouped by category\n" +
-                                  "0. Back\n");
+                                  "0. Back");
                 input = Console.ReadLine(); // reads the whole line
+                if (input == "")
+                    input = "k";
                 Console.Clear(); // this is the end of the page currently  // repeat for every menu, yay ugly code
                 if (input[0] == '0')
                     return;
@@ -88,31 +195,23 @@ namespace Uppgift1
                     {
                         case '1':
                             PrintList(shopStorage.SortByPrice());
-                            Console.ReadKey();
                             break;
                         case '2':
                             PrintList(shopStorage.SortByName());
-                            Console.ReadKey();
                             break;
                         case '3':
                             PrintList(shopStorage.SortByPriceAndName());
-                            Console.ReadKey();
                             break;
                         case '4':
                             Console.WriteLine("Lol, not implemented yet."); // <------ IMPLEMENT
-                            Console.ReadKey();
                             break;
                         default:
                             break;
                     }
                 }
+                Console.ReadKey();
                 Console.Clear();
             }
-        }
-
-        private void Search()
-        {
-            // things
         }
 
         private void Cart()
@@ -133,17 +232,5 @@ namespace Uppgift1
                 Console.WriteLine(item.name + "\t" + item.price + "\t" + item.category + "\t" + item.articleNumber);
             }
         }
-
-        /*
-        private bool CheckInput(String input)
-        {
-            if (input == "")
-                return false;
-            if (input[0] == '0' || input[0] == '1' || input[0] == '2' || input[0] == '3' || input[0] == '4' || input[0] == '5' || input[0] == '6' || input[0] == '7' || input[0] == '8' || input[0] == '9')
-                return true;
-            else
-                return false;
-        }
-        */
     }
 }

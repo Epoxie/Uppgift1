@@ -49,9 +49,10 @@ namespace Uppgift1
 
         public List<Item> SearchByName(String name)
         {
+            try { if (name[0] == '1') { } } catch { return new List<Item>(); }
             var returnList =
                 from t in InternalStorage
-                where t.name.Contains(name)
+                where t.name.ToLower().Contains(name.ToLower())
                 select t;
             return returnList.ToList();
         }
@@ -76,6 +77,7 @@ namespace Uppgift1
 
         public List<Item> SearchWithOptions(String name, double price, bool cheaper)
         {
+            try { if (name[0] == '1') { } } catch { return new List<Item>(); }
             List<Item> tempList = SearchByName(name);
             if (cheaper)
             {
@@ -97,19 +99,22 @@ namespace Uppgift1
 
         public List<Item> SearchNameWithinCategory(String name, String category)
         {
+            try { if (name[0] == '1') { } } catch { return new List<Item>(); }
+            try { if (category[0] == '1') { } } catch { return new List<Item>(); }
             var returnList =
                 from t in InternalStorage
-                where t.category == category
-                where t.name.Contains(name)
+                where t.category.ToLower() == category.ToLower()
+                where t.name.ToLower().Contains(name.ToLower())
                 select t;
             return returnList.ToList();
         }
 
         public List<Item> SearchCheaperWithinCategory(double price, String category)
         {
+            try { if (category[0] == '1') { } } catch { return new List<Item>(); }
             var returnList =
                 from t in InternalStorage
-                where t.category == category
+                where t.category.ToLower() == category.ToLower()
                 where t.price <= price
                 select t;
             return returnList.ToList();
@@ -117,9 +122,10 @@ namespace Uppgift1
 
         public List<Item> SearchExpensiveWithinCategory(double price, String category)
         {
+            try { if (category[0] == '1') { } } catch { return new List<Item>(); }
             var returnList =
                 from t in InternalStorage
-                where t.category == category
+                where t.category.ToLower() == category.ToLower()
                 where t.price >= price
                 select t;
             return returnList.ToList();
