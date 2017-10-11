@@ -29,7 +29,6 @@ namespace Uppgift1
                 Console.Clear(); // this is the end of the page currently
                 if (CheckInput(input)) // checks input so it's all good
                 {
-                    Console.Clear();
                     if (input[0] == '0')
                         Environment.Exit(0); // exit the application
                     else
@@ -70,7 +69,39 @@ namespace Uppgift1
 
         private void ShowStock()
         {
-            // do the thing
+            Console.WriteLine("Wanna sort in any way?" +
+                              "1. See the stock sorted by price" +
+                              "2. See the stock sorted by name" +
+                              "3. See the stock sorted by price and name" +
+                              "4. See the stock sorted by price, grouped by category " +
+                              "0. Exit program");
+            input = Console.ReadLine(); // reads the whole line
+            Console.Clear(); // this is the end of the page currently  // repeat for every menu, yay ugly code
+            if (CheckInput(input)) // checks input so it's all good
+            {
+                if (input[0] == '0')
+                    Environment.Exit(0); // exit the application
+                else
+                {
+                    switch (input[0])
+                    {
+                        case '1':
+                            ShowStock();
+                            break;
+                        case '2':
+                            Search();
+                            break;
+                        case '3':
+                            Cart();
+                            break;
+                        case '4':
+                            Checkout();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
         }
 
         private void Search()
