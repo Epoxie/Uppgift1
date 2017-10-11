@@ -26,6 +26,11 @@ namespace Uppgift1
             InternalStorage.RemoveAt(index);
         }
 
+        public void Clear()
+        {
+            InternalStorage = new List<T>();
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             return InternalStorage.GetEnumerator();

@@ -10,6 +10,7 @@ namespace Uppgift1
     {
         String input = "";
         ShopStorage shopStorage = new ShopStorage();
+        ShoppingCart shoppingCart = new ShoppingCart();
 
         public Menu()
         {
@@ -38,8 +39,7 @@ namespace Uppgift1
                 Console.WriteLine("Choose what to do by typing a number:\n" +
                                    "1. Search for items\n" +
                                    "2. View the stock\n" +
-                                   "3. View the cart\n" +
-                                   "4. Checkout\n" +
+                                   "3. Go to cart\n" +
                                    "0. Exit program");
                 input = Console.ReadLine(); // reads the whole line
                 if (input == "")
@@ -59,9 +59,6 @@ namespace Uppgift1
                             break;
                         case '3':
                             Cart();
-                            break;
-                        case '4':
-                            Checkout();
                             break;
                         default:
                             break;
@@ -216,12 +213,52 @@ namespace Uppgift1
 
         private void Cart()
         {
-            // show the cart
-        }
-
-        private void Checkout()
-        {
-            // checkout
+            while (true)
+            {
+                Console.WriteLine("Choose what to do by typing a number:\n" +
+                                   "1. View money on card\n" +
+                                   "2. View Items in cart\n" +
+                                   "3. Add Item to cart by article number\n" +
+                                   "4. Checkout\n" +
+                                   "0. Back");
+                input = Console.ReadLine(); // reads the whole line
+                if (input == "")
+                    input = "k";
+                Console.Clear(); // this is the end of the page currently
+                if (input[0] == '0')
+                    break;
+                else
+                {
+                    switch (input[0])
+                    {
+                        case '1':
+                            Console.WriteLine("You have " + shoppingCart.money + " dollares on your card");
+                            break;
+                        case '2':
+                            PrintList(shoppingCart.GetAllItems());
+                            break;
+                        case '3':
+                            Console.WriteLine("Article Number:");
+                            String tempString = Console.ReadLine();
+                            if (shopStorage.Find(tempString))
+                            {
+                                Item tempItem = shopStorage.Remove(tempString);
+                                shoppingCart.Add(tempItem);
+                                Console.WriteLine("Success!");
+                            }
+                            else
+                                Console.WriteLine("Fail :(");
+                            break;
+                        case '4':
+                            Checkout();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                Console.ReadKey();
+                Console.Clear();
+            }
         }
 
         private void PrintList(List<Item> printList)
@@ -231,6 +268,22 @@ namespace Uppgift1
             {
                 Console.WriteLine(item.name + "\t" + item.price + "\t" + item.category + "\t" + item.articleNumber);
             }
+        }
+
+        private void Checkout()
+        {
+            double cost = 0.0;
+            foreach (Item item in shoppingCart)
+                cost += item.price;
+            if (cost < shoppingCart.money)
+            {
+                Console.WriteLine("You bought some items!");
+                PrintList(shoppingCart.GetAllItems());
+                shoppingCart.money -= cost;
+                shoppingCart.Clear();
+            }
+            else
+                Console.WriteLine("You can't afford that!");
         }
     }
 }

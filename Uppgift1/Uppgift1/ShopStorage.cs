@@ -8,6 +8,8 @@ namespace Uppgift1
 {
     class ShopStorage : ItemStorage<Item>
     {
+        Item removeItem;
+
         public List<Item> SortByPrice()
         {
             var returnList =
@@ -129,6 +131,22 @@ namespace Uppgift1
                 where t.price >= price
                 select t;
             return returnList.ToList();
+        }
+
+        public bool Find(String articleNumber)
+        {
+            var list =
+                from t in InternalStorage
+                where t.articleNumber == articleNumber
+                select t;
+            try { removeItem = list.ToList()[0]; } catch { return false; }
+            return true;
+        }
+
+        public Item Remove(String articleNumber)
+        {
+            InternalStorage.Remove(removeItem);
+            return removeItem;
         }
     }
 }
