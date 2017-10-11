@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Uppgift1
 {
-    class Item : IEquatable<Item>, IComparable<Item>
+    public class Item : IEquatable<Item>, IComparable<Item>
     {
-        String articleNumber;
-        String name;
-        String category;
-        double price;
+        public String articleNumber { get; set; }
+        public String name { get; set; }
+        public String category { get; set; }
+        public double price { get; set; }
 
         public Item(String articleNumber, String name, String category, double price)
         {
@@ -35,6 +35,7 @@ namespace Uppgift1
 
         public bool Equals(Item other)
         {
+            if (other == null) return false;
             return (this.articleNumber == other.articleNumber);
         }
     }
